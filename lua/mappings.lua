@@ -46,4 +46,8 @@ map("n", "<C-/>", "<esc><cmd>lua require('Comment.api').toggle.linewise.current(
 -- map("n", "q", "<cmd>q<cr>", opts)
 map({ "n", "i" }, "<leader>q", "<cmd>q<cr>", opts)
 
--- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+map("n", "<C-t>", function()
+  require("nvchad.themes").open {
+    style = "compact",
+  }
+end, opts)

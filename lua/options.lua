@@ -7,4 +7,4 @@ local o = vim.o
 o.relativenumber = true
 o.signcolumn = "yes"
 o.wrap = false
--- o.cursorlineopt ='both' -- to enable cursorline!
+o.cursorlineopt = "both" -- to enable cursorline!

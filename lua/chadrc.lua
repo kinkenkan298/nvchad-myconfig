@@ -1,33 +1,36 @@
--- This file needs to have same structure as nvconfig.lua 
+-- This file needs to have same structure as nvconfig.lua
 -- https://github.com/NvChad/ui/blob/v3.0/lua/nvconfig.lua
--- Please read that file to know all available options :( 
+-- Please read that file to know all available options :(
 
 ---@type ChadrcConfig
 local M = {}
 
-M.base46 = {
-	theme = "tokyodark",
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  virtual_text = false,
+})
 
-	hl_override = {
-		Comment = { italic = true },
-		["@comment"] = { italic = true },
-	},
+M.base46 = {
+  theme = "tokyodark",
+
+  hl_override = {
+    Comment = { italic = true },
+    ["@comment"] = { italic = true },
+  },
 }
 
 M.ui = {
   statusline = {
     separator_style = "round",
-    theme = "minimal"
+    theme = "minimal",
   },
   cmp = {
-    style = "flat_dark",
-    icons_left = true
+    style = "atom_colored",
+    icons_left = true,
   },
   telescope = {
-    style = "borderless"
+    style = "borderless",
   },
 }
-
 
 M.nvdash = {
   load_on_startup = true,
