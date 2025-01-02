@@ -10,7 +10,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 })
 
 M.base46 = {
-  theme = "tokyodark",
+  theme = "solarized_osaka",
 
   hl_override = {
     Comment = { italic = true },
@@ -50,9 +50,11 @@ M.nvdash = {
   },
 
   buttons = {
-    { txt = "  Find File", keys = "ff", cmd = "Telescope find_files" },
+    { txt = "  Find File", keys = "ff", cmd = "FzfLua files" },
     { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
-    { txt = "󰈭  Find Word", keys = "fw", cmd = "Telescope live_grep" },
+    { txt = "  New Tab", keys = "n", cmd = ":ene | startinsert" },
+    { txt = "󰒲  Lazy", keys = "L", cmd = ":Lazy" },
+    { txt = "󰈭  Find Word", keys = "fw", cmd = "FzfLua live_grep" },
     { txt = "󱥚  Themes", keys = "th", cmd = ":lua require('nvchad.themes').open()" },
     { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
 

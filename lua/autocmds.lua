@@ -14,3 +14,13 @@ autocmd("BufReadPost", {
     end
   end,
 })
+autocmd("InsertEnter", {
+  pattern = "*",
+  command = "set nopaste",
+})
+autocmd("FileType", {
+  pattern = { "json", "jsonc", "markdown" },
+  callback = function()
+    vim.opt.conceallevel = 0
+  end,
+})

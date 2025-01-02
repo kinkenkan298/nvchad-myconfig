@@ -5,24 +5,30 @@ return {
     enabled = true,
     dependencies = {
       { "MunifTanjim/nui.nvim" },
+      { "rcarriga/nvim-notify" },
     },
     event = "VeryLazy",
     opts = {
       messages = {
-        enabled = false,
+        enabled = true,
       },
       notify = {
-        enabled = false,
+        enabled = true,
       },
       lsp = {
         progress = {
-          enabled = false,
+          enabled = true,
         },
         hover = {
-          enabled = false,
+          enabled = true,
         },
         signature = {
-          enabled = false,
+          enabled = true,
+        },
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
         },
       },
     },

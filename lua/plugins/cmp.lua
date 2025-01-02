@@ -1,5 +1,6 @@
 return {
   "zbirenbaum/copilot-cmp",
+  lazy = true,
   event = "InsertEnter",
   opts = {},
   dependencies = {
@@ -35,7 +36,9 @@ return {
       "onsails/lspkind.nvim",
       optional = true,
       -- Adds icon for copilot using lspkind
-      opts = function(_, opts) opts.symbol_map.Copilot = "" end,
+      opts = function(_, opts)
+        opts.symbol_map.Copilot = ""
+      end,
     },
   },
 }

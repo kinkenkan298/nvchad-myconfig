@@ -51,3 +51,27 @@ map("n", "<C-t>", function()
     style = "compact",
   }
 end, opts)
+
+-- mappings fzf
+map("n", "<leader>ff", function()
+  require("fzf-lua").files()
+end, { silent = true, noremap = true, desc = "FZF find files" })
+map("n", "<leader>fw", function()
+  require("fzf-lua").live_grep_native()
+end, { silent = true, noremap = true, desc = "FZF find Words" })
+
+-- mappings fzf git
+if vim.fn.executable "git" == 1 then
+  map("n", "<leader>gb", function()
+    require("fzf-lua").git_branches()
+  end, { silent = true, noremap = true, desc = "FZF find git branches" })
+  map("n", "<leader>gc", function()
+    require("fzf-lua").git_commits()
+  end, { silent = true, noremap = true, desc = "FZF find git commit" })
+  map("n", "<leader>gC", function()
+    require("fzf-lua").git_bcommits()
+  end, { silent = true, noremap = true, desc = "FZF find git commit (current file)" })
+  map("n", "<leader>gt", function()
+    require("fzf-lua").git_status()
+  end, { silent = true, noremap = true, desc = "FZF find git status" })
+end
