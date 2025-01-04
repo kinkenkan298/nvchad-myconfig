@@ -11,30 +11,24 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 
 M.base46 = {
   theme = "tokyodark",
-
-  hl_override = {
-    Comment = {
-      bold = true,
-      italic = false,
-    },
-    ["@comment"] = {
-      italic = false,
-      bold = true,
-    },
-  },
 }
 
 M.ui = {
   statusline = {
     separator_style = "round",
     theme = "minimal",
+    enabled = true,
   },
   cmp = {
     style = "atom_colored",
     icons_left = true,
+    icons = true,
   },
   telescope = {
     style = "borderless",
+  },
+  tabufline = {
+    lazyload = true,
   },
 }
 
