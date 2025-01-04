@@ -7,6 +7,7 @@ lspconfig.servers = {
   "cssls",
   "html",
   "jsonls",
+  "vtsls",
 }
 
 local default_servers = { "html", "cssls", "vtsls", "jsonls", "bashls" }

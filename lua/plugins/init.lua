@@ -41,4 +41,15 @@ return {
       { "<leader>o", "<cmd>NvimTreeFocus<cr>", desc = "󰙅  Explorer (Focus)" },
     },
   },
+  { "nvchad/volt", lazy = true },
+  {
+    "nvchad/minty",
+    lazy = true,
+    config = function()
+      require "configs.minty"
+    end,
+  },
+  { "nvchad/menu", lazy = true },
+  { "nvchad/showkeys", cmd = "ShowkeysToggle", opts = { position = "top-center" } },
+  { "nvchad/timerly", cmd = "TimerlyToggle" },
 }
