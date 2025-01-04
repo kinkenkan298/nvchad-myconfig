@@ -3,13 +3,13 @@ local options = {
     lua = { "stylua" },
     css = { "prettierd" },
     html = { "prettierd" },
-    javascript = { "prettierd"},
-    typescript = { "prettierd"}
+    javascript = { "prettierd" },
+    typescript = { "prettierd" },
   },
 
   format_on_save = {
     -- These options will be passed to conform.format()
-    timeout_ms = 5000,
+    timeout_ms = 3000,
     lsp_fallback = true,
   },
 }

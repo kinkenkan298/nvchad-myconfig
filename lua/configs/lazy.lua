@@ -1,6 +1,6 @@
 return {
   defaults = {
-    lazy = false,
+    lazy = true,
     version = false,
   },
   install = { colorscheme = { "nvchad" } },
@@ -12,11 +12,10 @@ return {
       loaded = "",
       not_loaded = "",
     },
+    backdrop = 100,
   },
-
-  checker = { enabled = true },
+  checker = { enabled = true, notify = false },
   performance = {
-    cache = { enabled = true },
     rtp = {
       disabled_plugins = {
         "2html_plugin",

@@ -10,11 +10,17 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 })
 
 M.base46 = {
-  theme = "solarized_osaka",
+  theme = "tokyodark",
 
   hl_override = {
-    Comment = { italic = true },
-    ["@comment"] = { italic = true },
+    Comment = {
+      bold = true,
+      italic = false,
+    },
+    ["@comment"] = {
+      italic = false,
+      bold = true,
+    },
   },
 }
 
