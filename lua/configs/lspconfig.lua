@@ -7,10 +7,11 @@ lspconfig.servers = {
   "cssls",
   "html",
   "jsonls",
-  "vtsls",
+  "ts_ls",
+  "volar",
 }
 
-local default_servers = { "html", "cssls", "vtsls", "jsonls", "bashls" }
+local default_servers = { "html", "cssls", "ts_ls", "jsonls", "bashls", "volar" }
 
 local nvlsp = require "nvchad.configs.lspconfig"
 
@@ -22,79 +23,53 @@ for _, lsp in ipairs(default_servers) do
   }
 end
 
-lspconfig.lua_ls.setup {
+require("lspconfig").jsonls.setup {
+  settings = {
+    json = {
+      schemas = {
+        { fileMatch = { "jsconfig.json" }, url = "https://json.schemastore.org/jsconfig" },
+        { fileMatch = { "tsconfig.json" }, url = "https://json.schemastore.org/tsconfig" },
+        { fileMatch = { "package.json" }, url = "https://json.schemastore.org/package" },
+        {
+          fileMatch = { ".prettierrc.json", ".prettierrc" },
+          url = "https://json.schemastore.org/prettierrc.json",
+        },
+        { fileMatch = { ".eslintrc.json" }, url = "https://json.schemastore.org/eslintrc.json" },
+      },
+    },
+  },
   on_attach = nvlsp.on_attach,
   on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
-
-  single_file_support = true,
-
+  capabilities = require "configs.lsp.capabilities",
+}
+require("lspconfig").cssls.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = require "configs.lsp.capabilities",
   settings = {
-    Lua = {
-      workspace = {
-        checkThirdParty = false,
-        library = {
-          vim.fn.expand "$VIMRUNTIME/lua",
-          vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
-          vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
-          vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
-          "${3rd}/love2d/library",
-        },
-        maxPreload = 100000,
-        preloadFileSize = 10000,
+    css = {
+      lint = {
+        -- Do not warn for Tailwind's @apply rule
+        unknownAtRules = "ignore",
       },
-      completion = {
-        workspaceWord = true,
-        callSnippet = "Both",
-      },
-      misc = {
-        parameters = {
-          -- "--log-level=trace",
-        },
-      },
-      hint = {
-        enable = true,
-        setType = false,
-        paramType = true,
-        paramName = "Disable",
-        semicolon = "Disable",
-        arrayIndex = "Disable",
-      },
-      doc = {
-        privateName = { "^_" },
-      },
-      type = {
-        castNumberToInteger = true,
-      },
-      diagnostics = {
-        disable = { "incomplete-signature-doc", "trailing-space" },
-        -- enable = false,
-        groupSeverity = {
-          strong = "Warning",
-          strict = "Warning",
-        },
-        groupFileStatus = {
-          ["ambiguity"] = "Opened",
-          ["await"] = "Opened",
-          ["codestyle"] = "None",
-          ["duplicate"] = "Opened",
-          ["global"] = "Opened",
-          ["luadoc"] = "Opened",
-          ["redefined"] = "Opened",
-          ["strict"] = "Opened",
-          ["strong"] = "Opened",
-          ["type-check"] = "Opened",
-          ["unbalanced"] = "Opened",
-          ["unused"] = "Opened",
-        },
-        unusedLocalExclude = { "_*" },
-      },
-      format = {
-        enable = false,
-        defaultConfig = {
-          indent_style = "space",
-          indent_size = "2",
-          continuation_indent_size = "2",
+    },
+  },
+}
+require("lspconfig").html.setup {
+  capabilities = require "configs.lsp.capabilities",
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+}
+require("lspconfig").volar.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = require "configs.lsp.capabilities",
+  filetypes = { "vue" },
+  settings = {
+    vue = {
+      complete = {
+        casing = {
+          props = "autoCamel",
         },
       },
     },

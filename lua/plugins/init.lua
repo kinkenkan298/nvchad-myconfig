@@ -36,6 +36,7 @@ return {
   },
   {
     "nvim-tree/nvim-tree.lua",
+    lazy = true,
     keys = {
       { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "󰙅 Explorer" },
       { "<leader>o", "<cmd>NvimTreeFocus<cr>", desc = "󰙅  Explorer (Focus)" },
@@ -50,6 +51,17 @@ return {
     end,
   },
   { "nvchad/menu", lazy = true },
-  { "nvchad/showkeys", cmd = "ShowkeysToggle", opts = { position = "top-center" } },
-  { "nvchad/timerly", cmd = "TimerlyToggle" },
+  {
+    "nvzone/showkeys",
+    event = "BufReadPre",
+    cmd = "ShowkeysToggle",
+    opts = {
+      position = "bottom-right",
+      maxkeys = 3,
+      show_count = true,
+    },
+    config = function()
+      require("showkeys").open()
+    end,
+  },
 }
