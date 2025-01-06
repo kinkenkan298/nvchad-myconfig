@@ -10,7 +10,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 })
 
 M.base46 = {
-  theme = "tokyonight",
+  theme = "tokyodark",
   integrations = { "dap" },
 }
 

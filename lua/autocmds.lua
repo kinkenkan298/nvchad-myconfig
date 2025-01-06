@@ -24,11 +24,3 @@ autocmd("FileType", {
     vim.opt.conceallevel = 0
   end,
 })
-vim.opt.guicursor = {
-  "n-v:block", -- Normal, Visual, Command mode: block cursor
-  "i-ci-ve-c:ver25", -- Insert, Command-line Insert, Visual mode: vertical bar cursor
-  "r-cr:hor20", -- Replace, Command-line Replace mode: horizontal bar cursor
-  "o:hor50", -- Operator-pending mode: horizontal bar cursor
-  "a:blinkwait700-blinkoff400-blinkon250", -- Blinking settings
-  "sm:block-blinkwait175-blinkoff150-blinkon175", -- Select mode: block cursor with blinking
-}

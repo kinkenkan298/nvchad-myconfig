@@ -7,11 +7,11 @@ lspconfig.servers = {
   "cssls",
   "html",
   "jsonls",
-  "ts_ls",
+  "vtsls",
   "volar",
 }
 
-local default_servers = { "html", "cssls", "ts_ls", "jsonls", "bashls", "volar" }
+local default_servers = { "html", "cssls", "vtsls", "jsonls", "bashls", "volar" }
 
 local nvlsp = require "nvchad.configs.lspconfig"
 
