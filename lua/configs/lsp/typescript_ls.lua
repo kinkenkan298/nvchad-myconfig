@@ -11,5 +11,5 @@ require("typescript-tools").setup {
       "@vue/typescript-plugin",
     },
   },
-  capabilities = require "configs.lsp.capabilities",
+  capabilities = require("blink-cmp").get_lsp_capabilities(),
 }

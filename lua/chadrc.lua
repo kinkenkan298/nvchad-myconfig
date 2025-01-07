@@ -10,7 +10,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 })
 
 M.base46 = {
-  theme = "tokyodark",
+  theme = "chadracula-evondev",
   integrations = { "dap" },
 }
 
@@ -21,7 +21,7 @@ M.ui = {
     enabled = true,
   },
   cmp = {
-    style = "atom_colored",
+    style = "flat_dark",
     icons_left = true,
     icons = true,
   },

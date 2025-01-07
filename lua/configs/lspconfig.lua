@@ -1,7 +1,6 @@
 require("nvchad.configs.lspconfig").defaults()
 
 local lspconfig = require "lspconfig"
-
 lspconfig.servers = {
   "bashls",
   "cssls",
@@ -10,20 +9,18 @@ lspconfig.servers = {
   "vtsls",
   "volar",
 }
-
 local default_servers = { "html", "cssls", "vtsls", "jsonls", "bashls", "volar" }
-
 local nvlsp = require "nvchad.configs.lspconfig"
 
 for _, lsp in ipairs(default_servers) do
   lspconfig[lsp].setup {
     on_attach = nvlsp.on_attach,
     on_init = nvlsp.on_init,
-    capabilities = nvlsp.capabilities,
+    capabilities = require("blink.cmp").get_lsp_capabilities(nvlsp.capabilities),
   }
 end
 
-require("lspconfig").jsonls.setup {
+lspconfig["jsonls"].setup {
   settings = {
     json = {
       schemas = {
@@ -38,14 +35,8 @@ require("lspconfig").jsonls.setup {
       },
     },
   },
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = require "configs.lsp.capabilities",
 }
-require("lspconfig").cssls.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = require "configs.lsp.capabilities",
+lspconfig["cssls"].setup {
   settings = {
     css = {
       lint = {
@@ -55,15 +46,7 @@ require("lspconfig").cssls.setup {
     },
   },
 }
-require("lspconfig").html.setup {
-  capabilities = require "configs.lsp.capabilities",
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-}
-require("lspconfig").volar.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = require "configs.lsp.capabilities",
+lspconfig["volar"].setup {
   filetypes = { "vue" },
   settings = {
     vue = {

@@ -42,26 +42,4 @@ return {
       { "<leader>o", "<cmd>NvimTreeFocus<cr>", desc = "󰙅  Explorer (Focus)" },
     },
   },
-  { "nvchad/volt", lazy = true },
-  {
-    "nvchad/minty",
-    lazy = true,
-    config = function()
-      require "configs.minty"
-    end,
-  },
-  { "nvchad/menu", lazy = true },
-  {
-    "nvzone/showkeys",
-    event = "BufReadPre",
-    cmd = "ShowkeysToggle",
-    opts = {
-      position = "bottom-right",
-      maxkeys = 3,
-      show_count = true,
-    },
-    config = function()
-      require("showkeys").open()
-    end,
-  },
 }
