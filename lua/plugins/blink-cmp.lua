@@ -59,17 +59,44 @@ local function get_icon(CTX)
   icon_provider(CTX)
 end
 
+local function cmpBorder(hl_name)
+  return {
+    -- just the enought chars to show the scrollbar correctly
+    { "╭", hl_name }, -- top left
+    { "─", hl_name }, -- top
+    { "╮", hl_name }, -- top right
+    { "│", hl_name }, -- right
+    { "╯", hl_name }, -- bottom right
+    { "─", hl_name }, -- bottom
+    { "╰", hl_name }, -- bottom left
+    { "│", hl_name }, -- left
+  }
+end
+
 return {
   {
     "saghen/blink.cmp",
-    event = { "InsertEnter", "CmdlineEnter" },
+    event = { "InsertEnter", "CmdlineEnter", "VeryLazy" },
     version = "0.*",
-    dependencies = "rafamadriz/friendly-snippets",
+    dependencies = {
+      {
+        "saghen/blink.compat",
+        opts = {},
+      },
+      {
+        "rafamadriz/friendly-snippets",
+        optional = true,
+      },
+      "dmitmel/cmp-cmdline-history",
+    },
     opts_extend = { "sources.default", "sources.cmdline" },
 
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
+      snippets = {
+        preset = "luasnip",
+      },
       keymap = {
         ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
         ["<Up>"] = { "select_prev", "fallback" },
@@ -96,30 +123,80 @@ return {
       },
 
       sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = { "lsp", "path", "buffer", "snippets" },
+        cmdline = function()
+          local type = vim.fn.getcmdtype()
+          -- Search forward and backward
+          if type == "/" or type == "?" then
+            return { "buffer" }
+          end
+          -- Commands
+          if type == ":" or type == "@" then
+            return { "cmdline_history", "cmdline" }
+          end
+          return {}
+        end,
+        providers = {
+          snippets = {
+            max_items = 10,
+          },
+          buffer = {
+            max_items = 10,
+            score_offset = -1,
+          },
+          path = {
+            max_items = 10,
+          },
+          cmdline = {
+            max_items = 10,
+          },
+          cmdline_history = {
+            name = "cmdline_history",
+            module = "blink.compat.source",
+          },
+        },
+      },
+      appearance = {
+        use_nvim_cmp_as_default = false,
+        nerd_font_variant = "mono",
       },
       completion = {
+        ghost_text = {
+          enabled = false,
+        },
+        keyword = {
+          range = "prefix",
+        },
         list = {
-          selection = function(ctx)
-            return ctx.mode == "cmdline" and "auto_insert" or "preselect"
-          end,
+          selection = {
+            auto_insert = true,
+            preselect = function(ctx)
+              return ctx.mode ~= "cmdline" and not require("blink.cmp").snippet_active { direction = 1 }
+            end,
+          },
         },
         menu = {
-          border = "rounded",
-          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+          border = "solid",
+          scrollbar = false,
+          winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
           draw = {
+            padding = 2,
             components = {
               kind_icon = {
+                ellipsis = false,
                 text = function(ctx)
-                  get_icon(ctx)
-                  return ctx.kind_icon .. ctx.icon_gap
+                  local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+                  return kind_icon
                 end,
+                -- Optionally, you may also use the highlights from mini.icons
                 highlight = function(ctx)
-                  get_icon(ctx)
-                  return ctx.kind_hl_group
+                  local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                  return hl
                 end,
               },
             },
+            columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "kind" } },
+            treesitter = { "lsp" },
           },
         },
         accept = {
@@ -129,16 +206,13 @@ return {
           auto_show = true,
           auto_show_delay_ms = 200,
           window = {
-            border = "rounded",
-            winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+            border = cmpBorder "BlinkCmpDocBorder",
+            winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:PmenuSel,EndOfBuffer:BlinkCmpDoc,Search:None",
           },
         },
       },
       signature = {
-        window = {
-          border = "rounded",
-          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder",
-        },
+        enabled = false,
       },
     },
     specs = {
@@ -173,7 +247,7 @@ return {
 
       { "hrsh7th/nvim-cmp", enabled = false },
       { "rcarriga/cmp-dap", enabled = false },
-      { "L3MON4D3/LuaSnip", enabled = false },
+      -- { "L3MON4D3/LuaSnip", enabled = false },
     },
   },
 }
