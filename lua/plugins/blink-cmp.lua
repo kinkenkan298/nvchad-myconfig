@@ -162,14 +162,14 @@ return {
       },
       completion = {
         ghost_text = {
-          enabled = false,
+          enabled = true,
         },
         keyword = {
           range = "prefix",
         },
         list = {
           selection = {
-            auto_insert = true,
+            auto_insert = false,
             preselect = function(ctx)
               return ctx.mode ~= "cmdline" and not require("blink.cmp").snippet_active { direction = 1 }
             end,
