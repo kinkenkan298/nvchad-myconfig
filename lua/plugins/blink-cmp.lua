@@ -3,76 +3,6 @@ local function has_words_before()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
----@type function?
-local icon_provider
-
-local function get_icon(CTX)
-  if not icon_provider then
-    local base = function(ctx)
-      ctx.kind_hl_group = "BlinkCmpKind" .. ctx.kind
-    end
-    local _, mini_icons = pcall(require, "mini.icons")
-    if _G.MiniIcons then
-      icon_provider = function(ctx)
-        base(ctx)
-        if ctx.item.source_name == "LSP" then
-          local item_doc, color_item = ctx.item.documentation, nil
-          if item_doc then
-            local highlight_colors_avail, highlight_colors = pcall(require, "nvim-highlight-colors")
-            color_item = highlight_colors_avail and highlight_colors.format(item_doc, { kind = ctx.kind })
-          end
-          local icon, hl = mini_icons.get("lsp", ctx.kind or "")
-          if icon then
-            ctx.kind_icon = icon
-            ctx.kind_hl_group = hl
-          end
-          if color_item and color_item.abbr and color_item.abbr_hl_group then
-            ctx.kind_icon, ctx.kind_hl_group = color_item.abbr, color_item.abbr_hl_group
-          end
-        elseif ctx.item.source_name == "Path" then
-          ctx.kind_icon, ctx.kind_hl_group = mini_icons.get(ctx.kind == "Folder" and "directory" or "file", ctx.label)
-        end
-      end
-    end
-    local lspkind_avail, lspkind = pcall(require, "lspkind")
-    if lspkind_avail then
-      icon_provider = function(ctx)
-        base(ctx)
-        if ctx.item.source_name == "LSP" then
-          local item_doc, color_item = ctx.item.documentation, nil
-          if item_doc then
-            local highlight_colors_avail, highlight_colors = pcall(require, "nvim-highlight-colors")
-            color_item = highlight_colors_avail and highlight_colors.format(item_doc, { kind = ctx.kind })
-          end
-          local icon = lspkind.symbolic(ctx.kind, { mode = "symbol" })
-          if icon then
-            ctx.kind_icon = icon
-          end
-          if color_item and color_item.abbr and color_item.abbr_hl_group then
-            ctx.kind_icon, ctx.kind_hl_group = color_item.abbr, color_item.abbr_hl_group
-          end
-        end
-      end
-    end
-    icon_provider = base
-  end
-  icon_provider(CTX)
-end
-
-local function cmpBorder(hl_name)
-  return {
-    -- just the enought chars to show the scrollbar correctly
-    { "╭", hl_name }, -- top left
-    { "─", hl_name }, -- top
-    { "╮", hl_name }, -- top right
-    { "│", hl_name }, -- right
-    { "╯", hl_name }, -- bottom right
-    { "─", hl_name }, -- bottom
-    { "╰", hl_name }, -- bottom left
-    { "│", hl_name }, -- left
-  }
-end
-
 return {
   {
     "saghen/blink.cmp",
@@ -94,9 +24,6 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      snippets = {
-        preset = "luasnip",
-      },
       keymap = {
         ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
         ["<Up>"] = { "select_prev", "fallback" },
@@ -137,9 +64,6 @@ return {
           return {}
         end,
         providers = {
-          snippets = {
-            max_items = 10,
-          },
           buffer = {
             max_items = 10,
             score_offset = -1,
@@ -170,15 +94,14 @@ return {
         list = {
           selection = {
             auto_insert = false,
-            preselect = function(ctx)
-              return ctx.mode ~= "cmdline" and not require("blink.cmp").snippet_active { direction = 1 }
-            end,
+            preselect = true,
           },
         },
         menu = {
-          border = "solid",
+          auto_show = true,
+          border = "rounded",
           scrollbar = false,
-          winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
           draw = {
             padding = 2,
             components = {
@@ -204,18 +127,27 @@ return {
         },
         documentation = {
           auto_show = true,
-          auto_show_delay_ms = 200,
+          auto_show_delay_ms = 0,
           window = {
-            border = cmpBorder "BlinkCmpDocBorder",
+            border = "rounded",
             winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:PmenuSel,EndOfBuffer:BlinkCmpDoc,Search:None",
           },
         },
       },
       signature = {
-        enabled = false,
+        enabled = true,
+        window = {
+          border = "rounded",
+          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+        },
       },
     },
     specs = {
+      {
+        "L3MON4D3/LuaSnip",
+        optional = true,
+        specs = { { "Saghen/blink.cmp", opts = { snippets = { preset = "luasnip" } } } },
+      },
       {
         "neovim/nvim-lspconfig",
         optional = true,
@@ -247,7 +179,6 @@ return {
 
       { "hrsh7th/nvim-cmp", enabled = false },
       { "rcarriga/cmp-dap", enabled = false },
-      -- { "L3MON4D3/LuaSnip", enabled = false },
     },
   },
 }

@@ -3,7 +3,21 @@ return {
     "pmizio/typescript-tools.nvim",
     ft = { "typescript", "typescriptreact", "javascript", "vue" },
     config = function()
-      require "configs.lsp.typescript_ls"
+      require("typescript-tools").setup {
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact",
+          "vue",
+        },
+        settings = {
+          tsserver_plugins = {
+            "@vue/typescript-plugin",
+          },
+        },
+        capabilities = require("blink-cmp").get_lsp_capabilities(),
+      }
     end,
   },
   {

@@ -14,7 +14,10 @@ local nvlsp = require "nvchad.configs.lspconfig"
 
 for _, lsp in ipairs(default_servers) do
   lspconfig[lsp].setup {
-    on_attach = nvlsp.on_attach,
+    on_attach = function(client, buffnr)
+      nvlsp.on_attach(client, buffnr)
+      require("inlay-hints").on_attach(client, buffnr)
+    end,
     on_init = nvlsp.on_init,
     capabilities = require("blink.cmp").get_lsp_capabilities(nvlsp.capabilities),
   }
@@ -54,6 +57,34 @@ lspconfig["volar"].setup {
         casing = {
           props = "autoCamel",
         },
+      },
+    },
+  },
+}
+lspconfig["vtsls"].setup {
+  settings = {
+    typescript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "all",
+        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
+      },
+    },
+    javascript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "all",
+        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
       },
     },
   },

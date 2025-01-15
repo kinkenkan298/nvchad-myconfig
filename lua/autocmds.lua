@@ -27,20 +27,20 @@ autocmd("FileType", {
     vim.opt.conceallevel = 0
   end,
 })
-autocmd("User", {
-  pattern = "BlinkCmpMenuOpen",
-  callback = function()
-    require("copilot.suggestion").dismiss()
-    vim.b.copilot_suggestion_hidden = true
-  end,
-})
-
-autocmd("User", {
-  pattern = "BlinkCmpMenuClose",
-  callback = function()
-    vim.b.copilot_suggestion_hidden = false
-  end,
-})
+-- autocmd("User", {
+--   pattern = "BlinkCmpMenuOpen",
+--   callback = function()
+--     require("copilot.suggestion").dismiss()
+--     vim.b.copilot_suggestion_hidden = true
+--   end,
+-- })
+--
+-- autocmd("User", {
+--   pattern = "BlinkCmpMenuClose",
+--   callback = function()
+--     vim.b.copilot_suggestion_hidden = false
+--   end,
+-- })
 
 autocmd("User", {
   group = augroup "load_clipboard",

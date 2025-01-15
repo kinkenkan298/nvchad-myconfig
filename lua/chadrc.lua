@@ -5,12 +5,8 @@
 ---@type ChadrcConfig
 local M = {}
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-  virtual_text = false,
-})
-
 M.base46 = {
-  theme = "tokyodark",
+  theme = "chadracula-evondev",
   integrations = { "dap" },
 }
 
@@ -20,11 +16,6 @@ M.ui = {
     theme = "minimal",
     enabled = true,
   },
-  cmp = {
-    style = "flat_dark",
-    icons_left = true,
-    icons = true,
-  },
   telescope = {
     style = "borderless",
   },
@@ -32,7 +23,7 @@ M.ui = {
     lazyload = true,
   },
   ident = {
-    enable = true,
+    enable = false,
   },
   hl_override = {
     NvimTreeNormal = { bg = "#141b1e" },
