@@ -21,6 +21,7 @@ return {
     config = function()
       require "configs.hlchunk"
     end,
+    enabled = true,
   },
   {
     "lukas-reineke/indent-blankline.nvim",

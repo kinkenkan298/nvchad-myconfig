@@ -1,6 +1,8 @@
 return {
   {
     "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    event = "VeryLazy",
     ft = { "typescript", "typescriptreact", "javascript", "vue" },
     config = function()
       require("typescript-tools").setup {
@@ -14,6 +16,7 @@ return {
         settings = {
           tsserver_plugins = {
             "@vue/typescript-plugin",
+            "@styled/typescript-styled-plugin",
           },
         },
         capabilities = require("blink-cmp").get_lsp_capabilities(),

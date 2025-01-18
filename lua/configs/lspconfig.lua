@@ -9,7 +9,7 @@ lspconfig.servers = {
   "vtsls",
   "volar",
 }
-local default_servers = { "html", "cssls", "vtsls", "jsonls", "bashls", "volar" }
+local default_servers = { "html", "cssls", "vtsls", "jsonls", "bashls", "volar", "yamlls", "tailwindcss" }
 local nvlsp = require "nvchad.configs.lspconfig"
 
 for _, lsp in ipairs(default_servers) do
@@ -19,7 +19,8 @@ for _, lsp in ipairs(default_servers) do
       require("inlay-hints").on_attach(client, buffnr)
     end,
     on_init = nvlsp.on_init,
-    capabilities = require("blink.cmp").get_lsp_capabilities(nvlsp.capabilities),
+    -- capabilities = require("blink.cmp").get_lsp_capabilities(nvlsp.capabilities),
+    capabilities = nvlsp.capabilities,
   }
 end
 
@@ -57,34 +58,6 @@ lspconfig["volar"].setup {
         casing = {
           props = "autoCamel",
         },
-      },
-    },
-  },
-}
-lspconfig["vtsls"].setup {
-  settings = {
-    typescript = {
-      inlayHints = {
-        includeInlayParameterNameHints = "all",
-        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayVariableTypeHints = true,
-        includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayEnumMemberValueHints = true,
-      },
-    },
-    javascript = {
-      inlayHints = {
-        includeInlayParameterNameHints = "all",
-        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayVariableTypeHints = true,
-        includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayEnumMemberValueHints = true,
       },
     },
   },

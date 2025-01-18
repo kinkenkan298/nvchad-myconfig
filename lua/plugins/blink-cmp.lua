@@ -94,7 +94,9 @@ return {
         list = {
           selection = {
             auto_insert = false,
-            preselect = true,
+            preselect = function(ctx)
+              return ctx.mode ~= "cmdline"
+            end,
           },
         },
         menu = {
@@ -135,7 +137,7 @@ return {
         },
       },
       signature = {
-        enabled = true,
+        enabled = false,
         window = {
           border = "rounded",
           winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
