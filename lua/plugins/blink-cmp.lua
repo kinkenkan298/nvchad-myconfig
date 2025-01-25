@@ -9,15 +9,10 @@ return {
     event = { "InsertEnter", "CmdlineEnter", "VeryLazy" },
     version = "0.*",
     dependencies = {
-      {
-        "saghen/blink.compat",
-        opts = {},
-      },
-      {
-        "rafamadriz/friendly-snippets",
-        optional = true,
-      },
+      "saghen/blink.compat",
+      "rafamadriz/friendly-snippets",
       "dmitmel/cmp-cmdline-history",
+      "xzbdmw/colorful-menu.nvim",
     },
     opts_extend = { "sources.default", "sources.cmdline" },
 
@@ -103,7 +98,7 @@ return {
           auto_show = true,
           border = "rounded",
           scrollbar = false,
-          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+          -- winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
           draw = {
             padding = 2,
             components = {
@@ -119,8 +114,16 @@ return {
                   return hl
                 end,
               },
+              label = {
+                text = function(ctx)
+                  return require("colorful-menu").blink_components_text(ctx)
+                end,
+                highlight = function(ctx)
+                  return require("colorful-menu").blink_components_highlight(ctx)
+                end,
+              },
             },
-            columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "kind" } },
+            columns = { { "kind_icon" }, { "label", gap = 1 } },
             treesitter = { "lsp" },
           },
         },
@@ -129,7 +132,7 @@ return {
         },
         documentation = {
           auto_show = true,
-          auto_show_delay_ms = 0,
+          auto_show_delay_ms = 300,
           window = {
             border = "rounded",
             winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:PmenuSel,EndOfBuffer:BlinkCmpDoc,Search:None",
@@ -138,10 +141,6 @@ return {
       },
       signature = {
         enabled = false,
-        window = {
-          border = "rounded",
-          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-        },
       },
     },
     specs = {
@@ -159,17 +158,15 @@ return {
         "folke/lazydev.nvim",
         optional = true,
         specs = {
-          { -- optional blink completion source for require statements and module annotations
+          {
             "saghen/blink.cmp",
             opts = {
               sources = {
-                -- add lazydev to your completion providers
                 default = { "lazydev", "lsp", "path", "snippets", "buffer" },
                 providers = {
                   lazydev = {
                     name = "LazyDev",
                     module = "lazydev.integrations.blink",
-                    -- make lazydev completions top priority (see `:h blink.cmp`)
                     score_offset = 100,
                   },
                 },
@@ -182,5 +179,38 @@ return {
       { "hrsh7th/nvim-cmp", enabled = false },
       { "rcarriga/cmp-dap", enabled = false },
     },
+  },
+  {
+    "xzbdmw/colorful-menu.nvim",
+    config = function()
+      require("colorful-menu").setup {
+        ls = {
+          lua_ls = {
+            arguments_hl = "@comment",
+          },
+          ts_ls = {
+            extra_info_hl = "@comment",
+          },
+          vtsls = {
+            extra_info_hl = "@comment",
+          },
+          ["rust-analyzer"] = {
+            extra_info_hl = "@comment",
+          },
+          clangd = {
+            extra_info_hl = "@comment",
+          },
+          roslyn = {
+            extra_info_hl = "@comment",
+          },
+          basedpyright = {
+            extra_info_hl = "@comment",
+          },
+          fallback = true,
+        },
+        fallback_highlight = "@variable",
+        max_width = 80,
+      }
+    end,
   },
 }
