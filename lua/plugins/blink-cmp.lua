@@ -1,8 +1,3 @@
-local function has_words_before()
-  local line, col = (unpack or table.unpack)(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
-end
-
 return {
   {
     "saghen/blink.cmp",
@@ -14,38 +9,22 @@ return {
       "dmitmel/cmp-cmdline-history",
       "xzbdmw/colorful-menu.nvim",
     },
-    opts_extend = { "sources.default", "sources.cmdline" },
-
+    opts_extend = {
+      "sources.default",
+      "sources.cmdline",
+      "sources.completion.enabled_providers",
+      "sources.compat",
+    },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
       keymap = {
-        ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
-        ["<Up>"] = { "select_prev", "fallback" },
-        ["<Down>"] = { "select_next", "fallback" },
-        ["<C-N>"] = { "select_next", "show" },
-        ["<C-P>"] = { "select_prev", "show" },
-        ["<C-J>"] = { "select_next", "fallback" },
-        ["<C-K>"] = { "select_prev", "fallback" },
-        ["<C-U>"] = { "scroll_documentation_up", "fallback" },
-        ["<C-D>"] = { "scroll_documentation_down", "fallback" },
-        ["<C-e>"] = { "hide", "fallback" },
-        ["<CR>"] = { "accept", "fallback" },
-        ["<Tab>"] = {
-          "select_next",
-          "snippet_forward",
-          function(cmp)
-            if has_words_before() then
-              return cmp.show()
-            end
-          end,
-          "fallback",
-        },
-        ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+        preset = "enter",
       },
 
       sources = {
-        default = { "lsp", "path", "buffer", "snippets" },
+        compat = {},
+        default = { "lsp", "path", "snippets", "buffer" },
         cmdline = function()
           local type = vim.fn.getcmdtype()
           -- Search forward and backward
@@ -84,7 +63,7 @@ return {
           enabled = true,
         },
         keyword = {
-          range = "prefix",
+          range = "full",
         },
         list = {
           selection = {
@@ -114,14 +93,6 @@ return {
                   return hl
                 end,
               },
-              label = {
-                text = function(ctx)
-                  return require("colorful-menu").blink_components_text(ctx)
-                end,
-                highlight = function(ctx)
-                  return require("colorful-menu").blink_components_highlight(ctx)
-                end,
-              },
             },
             columns = { { "kind_icon" }, { "label", gap = 1 } },
             treesitter = { "lsp" },
@@ -143,6 +114,50 @@ return {
         enabled = false,
       },
     },
+    ---@param opts blink.cmp.Config | { sources: { compat: string[] } }
+    config = function(_, opts)
+      local enabled = opts.sources.default
+      for _, source in ipairs(opts.sources.compat or {}) do
+        opts.sources.providers[source] = vim.tbl_deep_extend(
+          "force",
+          { name = source, module = "blink.compat.source" },
+          opts.sources.providers[source] or {}
+        )
+        if type(enabled) == "table" and not vim.tbl_contains(enabled, source) then
+          table.insert(enabled, source)
+        end
+      end
+      -- Unset custom prop to pass blink.cmp validation
+      opts.sources.compat = nil
+
+      -- check if we need to override symbol kinds
+      for _, provider in pairs(opts.sources.providers or {}) do
+        ---@cast provider blink.cmp.SourceProviderConfig|{kind?:string}
+        if provider.kind then
+          local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+          local kind_idx = #CompletionItemKind + 1
+
+          CompletionItemKind[kind_idx] = provider.kind
+          ---@diagnostic disable-next-line: no-unknown
+          CompletionItemKind[provider.kind] = kind_idx
+
+          ---@type fun(ctx: blink.cmp.Context, items: blink.cmp.CompletionItem[]): blink.cmp.CompletionItem[]
+          local transform_items = provider.transform_items
+          ---@param ctx blink.cmp.Context
+          ---@param items blink.cmp.CompletionItem[]
+          provider.transform_items = function(ctx, items)
+            items = transform_items and transform_items(ctx, items) or items
+            for _, item in ipairs(items) do
+              item.kind = kind_idx or item.kind
+            end
+            return items
+          end
+          -- Unset custom prop to pass blink.cmp validation
+          provider.kind = nil
+        end
+      end
+      require("blink.cmp").setup(opts)
+    end,
     specs = {
       {
         "L3MON4D3/LuaSnip",
@@ -162,7 +177,7 @@ return {
             "saghen/blink.cmp",
             opts = {
               sources = {
-                default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+                default = { "lazydev" },
                 providers = {
                   lazydev = {
                     name = "LazyDev",
@@ -179,38 +194,5 @@ return {
       { "hrsh7th/nvim-cmp", enabled = false },
       { "rcarriga/cmp-dap", enabled = false },
     },
-  },
-  {
-    "xzbdmw/colorful-menu.nvim",
-    config = function()
-      require("colorful-menu").setup {
-        ls = {
-          lua_ls = {
-            arguments_hl = "@comment",
-          },
-          ts_ls = {
-            extra_info_hl = "@comment",
-          },
-          vtsls = {
-            extra_info_hl = "@comment",
-          },
-          ["rust-analyzer"] = {
-            extra_info_hl = "@comment",
-          },
-          clangd = {
-            extra_info_hl = "@comment",
-          },
-          roslyn = {
-            extra_info_hl = "@comment",
-          },
-          basedpyright = {
-            extra_info_hl = "@comment",
-          },
-          fallback = true,
-        },
-        fallback_highlight = "@variable",
-        max_width = 80,
-      }
-    end,
   },
 }
