@@ -51,5 +51,6 @@ return {
       { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "󰙅 Explorer" },
       { "<leader>o", "<cmd>NvimTreeFocus<cr>", desc = "󰙅  Explorer (Focus)" },
     },
+    enabled = false,
   },
 }

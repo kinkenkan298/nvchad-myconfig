@@ -32,46 +32,33 @@ map("n", "<M-Down>", "<cmd>m+<cr>", opts)
 map("i", "<M-Down>", "<cmd>m+<cr>", opts)
 map("n", "<M-Up>", "<cmd>m-2<cr>", opts)
 map("i", "<M-Up>", "<cmd>m-2<cr>", opts)
--- create comment CTRL + / all mode
--- map("v", "<C-_>", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", opts)
--- map("v", "<C-/>", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", opts)
--- map("i", "<C-_>", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", opts)
--- map("i", "<C-/>", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", opts)
--- map("i", "<C-_>", "<esc><cmd>lua require('Comment.api').toggle.linewise.current()<cr>", opts)
--- map("i", "<C-/>", "<esc><cmd>lua require('Comment.api').toggle.linewise.current()<cr>", opts)
--- map("n", "<C-_>", "<esc><cmd>lua require('Comment.api').toggle.linewise.current()<cr>", opts)
--- map("n", "<C-/>", "<esc><cmd>lua require('Comment.api').toggle.linewise.current()<cr>", opts)
 
 -- close windows
 map("n", "q", "<cmd>q<cr>", opts)
 map({ "n", "i" }, "<leader>q", "<cmd>q<cr>", opts)
 
 map("n", "<C-t>", function()
-  require("nvchad.themes").open {
-    style = "compact",
-  }
+  require("snacks").picker.colorschemes()
 end, opts)
 
--- mappings fzf
+map("n", "<leader><space>", function()
+  require("snacks").picker.smart()
+end)
+map("n", "<leader>,", function()
+  require("snacks").picker.buffers()
+end)
+map("n", "<leader>n", function()
+  require("snacks").picker.notifications()
+end)
+map("n", "<leader>e", function()
+  require("snacks").explorer()
+end)
+map("n", "<leader>:", function()
+  require("snacks").picker.command_history()
+end, opts)
 map("n", "<leader>ff", function()
-  require("fzf-lua").files()
-end, { silent = true, noremap = true, desc = "FZF find files" })
-map("n", "<leader>fw", function()
-  require("fzf-lua").live_grep_native()
-end, { silent = true, noremap = true, desc = "FZF find Words" })
-
--- mappings fzf git
-if vim.fn.executable "git" == 1 then
-  map("n", "<leader>gb", function()
-    require("fzf-lua").git_branches()
-  end, { silent = true, noremap = true, desc = "FZF find git branches" })
-  map("n", "<leader>gc", function()
-    require("fzf-lua").git_commits()
-  end, { silent = true, noremap = true, desc = "FZF find git commit" })
-  map("n", "<leader>gC", function()
-    require("fzf-lua").git_bcommits()
-  end, { silent = true, noremap = true, desc = "FZF find git commit (current file)" })
-  map("n", "<leader>gt", function()
-    require("fzf-lua").git_status()
-  end, { silent = true, noremap = true, desc = "FZF find git status" })
-end
+  require("snacks").picker.files()
+end, opts)
+map("n", "<leader>fc", function()
+  require("snacks").picker.config()
+end, opts)

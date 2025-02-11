@@ -8,22 +8,6 @@ return {
     end,
   },
   {
-    "IogaMaster/neocord",
-    event = "VeryLazy",
-    config = function()
-      require "configs.neocord"
-    end,
-  },
-  {
-    "shellRaining/hlchunk.nvim",
-    lazy = true,
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      require "configs.hlchunk"
-    end,
-    enabled = true,
-  },
-  {
     "lukas-reineke/indent-blankline.nvim",
     enabled = false,
   },
