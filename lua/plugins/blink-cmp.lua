@@ -1,7 +1,7 @@
 return {
   {
     "saghen/blink.cmp",
-    event = { "InsertEnter", "CmdlineEnter", "VeryLazy" },
+    event = { "InsertEnter", "CmdlineEnter" },
     version = "0.*",
     dependencies = {
       "saghen/blink.compat",
@@ -11,9 +11,6 @@ return {
     },
     opts_extend = {
       "sources.default",
-      "sources.cmdline",
-      "sources.completion.enabled_providers",
-      "sources.compat",
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -38,16 +35,6 @@ return {
           return {}
         end,
         providers = {
-          buffer = {
-            max_items = 10,
-            score_offset = -1,
-          },
-          path = {
-            max_items = 10,
-          },
-          cmdline = {
-            max_items = 10,
-          },
           cmdline_history = {
             name = "cmdline_history",
             module = "blink.compat.source",
@@ -68,9 +55,7 @@ return {
         list = {
           selection = {
             auto_insert = false,
-            preselect = function(ctx)
-              return ctx.mode ~= "cmdline"
-            end,
+            preselect = true,
           },
         },
         menu = {
@@ -103,7 +88,7 @@ return {
         },
         documentation = {
           auto_show = true,
-          auto_show_delay_ms = 300,
+          auto_show_delay_ms = 0,
           window = {
             border = "rounded",
             winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:PmenuSel,EndOfBuffer:BlinkCmpDoc,Search:None",
@@ -115,49 +100,6 @@ return {
       },
     },
     ---@param opts blink.cmp.Config | { sources: { compat: string[] } }
-    config = function(_, opts)
-      local enabled = opts.sources.default
-      for _, source in ipairs(opts.sources.compat or {}) do
-        opts.sources.providers[source] = vim.tbl_deep_extend(
-          "force",
-          { name = source, module = "blink.compat.source" },
-          opts.sources.providers[source] or {}
-        )
-        if type(enabled) == "table" and not vim.tbl_contains(enabled, source) then
-          table.insert(enabled, source)
-        end
-      end
-      -- Unset custom prop to pass blink.cmp validation
-      opts.sources.compat = nil
-
-      -- check if we need to override symbol kinds
-      for _, provider in pairs(opts.sources.providers or {}) do
-        ---@cast provider blink.cmp.SourceProviderConfig|{kind?:string}
-        if provider.kind then
-          local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-          local kind_idx = #CompletionItemKind + 1
-
-          CompletionItemKind[kind_idx] = provider.kind
-          ---@diagnostic disable-next-line: no-unknown
-          CompletionItemKind[provider.kind] = kind_idx
-
-          ---@type fun(ctx: blink.cmp.Context, items: blink.cmp.CompletionItem[]): blink.cmp.CompletionItem[]
-          local transform_items = provider.transform_items
-          ---@param ctx blink.cmp.Context
-          ---@param items blink.cmp.CompletionItem[]
-          provider.transform_items = function(ctx, items)
-            items = transform_items and transform_items(ctx, items) or items
-            for _, item in ipairs(items) do
-              item.kind = kind_idx or item.kind
-            end
-            return items
-          end
-          -- Unset custom prop to pass blink.cmp validation
-          provider.kind = nil
-        end
-      end
-      require("blink.cmp").setup(opts)
-    end,
     specs = {
       {
         "L3MON4D3/LuaSnip",

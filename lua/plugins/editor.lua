@@ -46,8 +46,4 @@ return {
       wk.setup(opts)
     end,
   },
-  {
-    "eldritch-theme/eldritch.nvim",
-    lazy = true,
-  },
 }

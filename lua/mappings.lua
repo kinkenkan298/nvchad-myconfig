@@ -38,7 +38,9 @@ map("n", "q", "<cmd>q<cr>", opts)
 map({ "n", "i" }, "<leader>q", "<cmd>q<cr>", opts)
 
 map("n", "<C-t>", function()
-  require("snacks").picker.colorschemes()
+  require("nvchad.themes").open {
+    style = "compact",
+  }
 end, opts)
 
 map("n", "<leader><space>", function()
@@ -51,7 +53,13 @@ map("n", "<leader>n", function()
   require("snacks").picker.notifications()
 end)
 map("n", "<leader>e", function()
-  require("snacks").explorer()
+  require("snacks").explorer {
+    git_status = true,
+    git_status_open = true,
+    git_untracked = true,
+    env = { env = ".env" },
+    hidden = true,
+  }
 end)
 map("n", "<leader>:", function()
   require("snacks").picker.command_history()
