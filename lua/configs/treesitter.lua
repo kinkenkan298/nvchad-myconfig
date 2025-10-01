@@ -15,6 +15,7 @@ local options = {
     "markdown_inline",
     "printf",
     "python",
+    "php",
     "query",
     "regex",
     "toml",

@@ -43,39 +43,3 @@ map("n", "<C-t>", function()
   }
 end, opts)
 
-map("n", "<leader><space>", function()
-  require("snacks").picker.smart()
-end)
-map("n", "<leader>,", function()
-  require("snacks").picker.buffers()
-end)
-map("n", "<leader>n", function()
-  require("snacks").picker.notifications()
-end)
-map("n", "<leader>e", function()
-  require("snacks").explorer {
-    git_status = true,
-    git_status_open = true,
-    git_untracked = true,
-    env = { env = ".env" },
-    hidden = true,
-  }
-end)
-map("n", "<leader>:", function()
-  require("snacks").picker.command_history()
-end, opts)
-map("n", "<leader>ff", function()
-  require("snacks").picker.files()
-end, opts)
-map("n", "<leader>fc", function()
-  require("snacks").picker.config()
-end, opts)
-map("n", "<leader>fg", function()
-  require("snacks").picker.git_files()
-end, opts)
-map("n", "<leader>fr", function()
-  require("snacks").picker.recent()
-end, opts)
-map("n", "<leader>fp", function()
-  require("snacks").picker.projects()
-end, opts)

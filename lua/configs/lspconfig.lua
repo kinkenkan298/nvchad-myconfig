@@ -1,60 +1,47 @@
 require("nvchad.configs.lspconfig").defaults()
 
-local lspconfig = require "lspconfig"
-lspconfig.servers = {
-  "bashls",
-  "cssls",
-  "html",
-  "jsonls",
-  "vtsls",
-  "volar",
+local servers = {
+  html = {},
+  cssls = {},
+  vtsls = {},
+  intelephense = {
+    root_makers = { "composer.json", ".git", ".hg", "index.php" },
+    settings = {
+      files = {
+        associations = { "*.php" },
+        maxSize = 1000000,
+      },
+      environment = {
+        includePaths = { "vendor" }, -- biar auto import jalan ke vendor/ juga
+      },
+    },
+  },
+  ts_ls = {},
+  emmet_language_server = {
+    filetypes = {
+      "astro",
+      "css",
+      "eruby",
+      "html",
+      "htmlangular",
+      "htmldjango",
+      "javascriptreact",
+      "less",
+      "pug",
+      "sass",
+      "scss",
+      "svelte",
+      "templ",
+      "typescriptreact",
+      "vue",
+      "php",
+    },
+  },
+  pyright = {},
+  clangd = {},
 }
-local default_servers = { "html", "cssls", "vtsls", "jsonls", "bashls", "volar", "yamlls", "tailwindcss" }
-local nvlsp = require "nvchad.configs.lspconfig"
 
-for _, lsp in ipairs(default_servers) do
-  lspconfig[lsp].setup {
-    on_attach = nvlsp.on_attach,
-    on_init = nvlsp.on_init,
-    capabilities = require("blink.cmp").get_lsp_capabilities(nvlsp.capabilities),
-  }
+for name, opts in pairs(servers) do
+  vim.lsp.config(name, opts)
+  vim.lsp.enable(name)
 end
-
-lspconfig["jsonls"].setup {
-  settings = {
-    json = {
-      schemas = {
-        { fileMatch = { "jsconfig.json" }, url = "https://json.schemastore.org/jsconfig" },
-        { fileMatch = { "tsconfig.json" }, url = "https://json.schemastore.org/tsconfig" },
-        { fileMatch = { "package.json" }, url = "https://json.schemastore.org/package" },
-        {
-          fileMatch = { ".prettierrc.json", ".prettierrc" },
-          url = "https://json.schemastore.org/prettierrc.json",
-        },
-        { fileMatch = { ".eslintrc.json" }, url = "https://json.schemastore.org/eslintrc.json" },
-      },
-    },
-  },
-}
-lspconfig["cssls"].setup {
-  settings = {
-    css = {
-      lint = {
-        -- Do not warn for Tailwind's @apply rule
-        unknownAtRules = "ignore",
-      },
-    },
-  },
-}
-lspconfig["volar"].setup {
-  filetypes = { "vue" },
-  settings = {
-    vue = {
-      complete = {
-        casing = {
-          props = "autoCamel",
-        },
-      },
-    },
-  },
-}

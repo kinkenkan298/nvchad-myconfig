@@ -8,6 +8,10 @@ local M = {}
 M.base46 = {
   theme = "chadracula-evondev",
   integrations = { "dap" },
+  hl_override = {
+    Comment = { italic = true },
+    ["@comment"] = { italic = true },
+  },
 }
 
 M.ui = {
@@ -58,29 +62,15 @@ M.nvdash = {
     "     Powered By  eovim    ",
     "                            ",
   },
+}
 
-  buttons = {
-    { txt = "  Find File", keys = "ff", cmd = "FzfLua files" },
-    { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
-    { txt = "  New Tab", keys = "n", cmd = ":ene | startinsert" },
-    { txt = "󰒲  Lazy", keys = "L", cmd = ":Lazy" },
-    { txt = "󰈭  Find Word", keys = "fw", cmd = "FzfLua live_grep" },
-    { txt = "󱥚  Themes", keys = "th", cmd = ":lua require('nvchad.themes').open()" },
-    { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
-
-    { txt = "─", hl = "NvDashLazy", no_gap = true, rep = true },
-
-    {
-      txt = function()
-        local stats = require("lazy").stats()
-        local ms = math.floor(stats.startuptime) .. " ms"
-        return "  Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms
-      end,
-      hl = "NvDashLazy",
-      no_gap = true,
-    },
-
-    { txt = "─", hl = "NvDashLazy", no_gap = true, rep = true },
+M.ui = {
+  statusline = {
+    theme = "minimal",
+    separator_style = "round",
+  },
+  cmp = {
+    style = "atom",
   },
 }
 
