@@ -5,7 +5,7 @@ local options = {
     html = { "prettierd" },
     javascript = { "prettierd" },
     typescript = { "prettierd" },
-    php = { "pretty-php", "php-cs-fixer" },
+    php = { "php-cs-fixer" },
     python = { "black" },
     blade = { "blade-formatter" },
   },
