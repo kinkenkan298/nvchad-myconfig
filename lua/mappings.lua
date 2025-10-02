@@ -43,3 +43,16 @@ map("n", "<C-t>", function()
   }
 end, opts)
 
+map("n", "<leader><space>", function()
+  require("snacks").picker.smart()
+end)
+
+map("n", "<leader>e", function()
+  require("snacks").explorer {
+    git_status = true,
+    git_status_open = true,
+    git_untracked = true,
+    env = { env = ".env" },
+    hidden = true,
+  }
+end)

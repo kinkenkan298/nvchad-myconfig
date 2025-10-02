@@ -26,6 +26,7 @@ return {
         { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "󰙅 Explorer" },
         { "<leader>o", "<cmd>NvimTreeFocus<cr>", desc = "󰙅  Explorer (Focus)" },
       },
+      enable = false,
     },
     {
       "shellRaining/hlchunk.nvim",
@@ -43,7 +44,7 @@ return {
       end,
     },
     { "nvchad/menu", lazy = true },
-    { "nvchad/showkeys", cmd = "ShowkeysToggle", opts = { position = "top-center" } },
+    { "nvchad/showkeys", cmd = "ShowkeysToggle", opts = { position = "bottom-right" } },
     { "nvchad/timerly", cmd = "TimerlyToggle" },
     {
       "rachartier/tiny-inline-diagnostic.nvim",
@@ -55,5 +56,25 @@ return {
       end,
     },
     { import = "nvchad.blink.lazyspec" },
+    {
+      "karb94/neoscroll.nvim",
+      lazy = true,
+      opts = {
+        hide_cursor = false,
+      },
+    },
+    {
+      "sphamba/smear-cursor.nvim",
+      opts = {
+        stiffness = 0.5,
+        trailing_stiffness = 0.5,
+        matrix_pixel_threshold = 0.5,
+        smear_between_buffers = true,
+        smear_between_neighbor_lines = true,
+        scroll_buffer_space = true,
+        legacy_computing_symbols_support = false,
+        smear_insert_mode = true,
+      },
+    },
   },
 }
