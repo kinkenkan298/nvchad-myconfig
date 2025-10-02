@@ -5,9 +5,8 @@ local options = {
     html = { "prettierd" },
     javascript = { "prettierd" },
     typescript = { "prettierd" },
-    php = { "php-cs-fixer" },
+    php = { "pint", "php-cs-fixer" },
     python = { "black" },
-    blade = { "blade-formatter" },
   },
 
   format_on_save = {

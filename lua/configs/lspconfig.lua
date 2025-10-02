@@ -5,14 +5,14 @@ local servers = {
   cssls = {},
   vtsls = {},
   intelephense = {
-    root_makers = { "composer.json", ".git", ".hg", "index.php" },
+    root_markers = { "index.php", ".git", "composer.json" },
     settings = {
       files = {
         associations = { "*.php" },
         maxSize = 1000000,
       },
       environment = {
-        includePaths = { "vendor" }, -- biar auto import jalan ke vendor/ juga
+        includePaths = { "./", "vendor" }, -- biar auto import jalan ke vendor/ juga
       },
     },
   },
@@ -34,7 +34,6 @@ local servers = {
       "templ",
       "typescriptreact",
       "vue",
-      "php",
     },
   },
   pyright = {},

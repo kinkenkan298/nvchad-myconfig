@@ -56,3 +56,8 @@ map("n", "<leader>e", function()
     hidden = true,
   }
 end)
+-- map("n", "<leader>o", function ()
+--   require("snacks").explorer({
+--
+--   })
+-- end)
