@@ -45,11 +45,41 @@ return {
       desc = "Lazygit",
     },
   },
-  ---@type snacks.Config
+  ---@class snacks.Config
+  ---@field animate? snacks.animate.Config
+  ---@field bigfile? snacks.bigfile.Config
+  ---@field dashboard? snacks.dashboard.Config
+  ---@field dim? snacks.dim.Config
+  ---@field explorer? snacks.explorer.Config
+  ---@field gitbrowse? snacks.gitbrowse.Config
+  ---@field image? snacks.image.Config
+  ---@field indent? snacks.indent.Config
+  ---@field input? snacks.input.Config
+  ---@field layout? snacks.layout.Config
+  ---@field lazygit? snacks.lazygit.Config
+  ---@field notifier? snacks.notifier.Config
+  ---@field picker? snacks.picker.Config
+  ---@field profiler? snacks.profiler.Config
+  ---@field quickfile? snacks.quickfile.Config
+  ---@field scope? snacks.scope.Config
+  ---@field scratch? snacks.scratch.Config
+  ---@field scroll? snacks.scroll.Config
+  ---@field statuscolumn? snacks.statuscolumn.Config
+  ---@field terminal? snacks.terminal.Config
+  ---@field toggle? snacks.toggle.Config
+  ---@field win? snacks.win.Config
+  ---@field words? snacks.words.Config
+  ---@field zen? snacks.zen.Config
+  ---@field styles? table<string, snacks.win.Config>
+  ---@field image? snacks.image.Config|{}
   opts = {
-    bigfile = { enabled = true },
+    bigfile = {
+      enabled = true,
+    },
     dashboard = { enabled = false },
-    explorer = { enabled = true },
+    explorer = {
+      enabled = true,
+    },
     indent = { enabled = true },
     input = { enabled = true },
     notifier = {

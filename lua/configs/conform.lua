@@ -5,7 +5,8 @@ local options = {
     html = { "prettierd" },
     javascript = { "prettierd" },
     typescript = { "prettierd" },
-    php = { "pint", "php-cs-fixer" },
+    json = { "prettierd" },
+    php = { "php-cs-fixer" },
     python = { "black" },
   },
 

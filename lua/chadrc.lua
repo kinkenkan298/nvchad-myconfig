@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "everblush",
+  theme = "solarized_osaka",
   integrations = { "dap" },
   hl_override = {
     Comment = { italic = true },
@@ -28,21 +28,6 @@ M.ui = {
   },
   ident = {
     enable = false,
-  },
-  hl_override = {
-    NvimTreeNormal = { bg = "#141b1e" },
-    NvimTreeNormalNC = { bg = "#141b1e" },
-    NvimTreeWinSeparator = { bg = "#141b1e", fg = "#141b1e" },
-    WinSeparator = { bg = "#141b1e" },
-    NavicSeparator = { bg = "#ffffff" },
-    BufferLineSeparator = { bg = "#141b1e" },
-    WhichKeySeparator = { bg = "#141b1e" },
-    BufferLineSeparatorVisible = { bg = "#141b1e" },
-    BufferLineSeparatorSelected = { bg = "#141b1e" },
-    LineNr = { bg = "#141b1e" },
-    NvimTreeOpenedFolderName = { bg = "#141b1e" },
-    DapUILineNumber = { bg = "#141b1e" },
-    BufferLineBackground = { bg = "#141b1e" },
   },
 }
 
@@ -70,8 +55,7 @@ M.ui = {
     separator_style = "round",
   },
   cmp = {
-    style = "atom",
+    style = "flat_light",
   },
 }
-
 return M

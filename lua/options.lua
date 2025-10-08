@@ -2,9 +2,9 @@ require "nvchad.options"
 
 local M = {}
 
-M.stbufnr = function()
-  return vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0)
-end
+-- M.stbufnr = function()
+--   return vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0)
+-- end
 
 local o = vim.o
 
@@ -15,6 +15,7 @@ o.wrap = false
 o.cursorlineopt = "both" -- to enable cursorline!
 o.ignorecase = true
 o.background = "dark"
+o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 vim.opt.mouse = "a"
 vim.opt.cmdheight = 0
@@ -47,9 +48,9 @@ local highlights = {
   DiagHint = { fg = "#98c379", bg = "#232a2d" },
 }
 
-for group, opts in pairs(highlights) do
-  vim.api.nvim_set_hl(0, group, opts)
-end
+-- for group, opts in pairs(highlights) do
+--   vim.api.nvim_set_hl(0, group, opts)
+-- end
 
 _G.RecolorMode = function()
   local mode = vim.fn.mode()
@@ -155,40 +156,40 @@ _G.HandleColumnGap = function()
   return col > 9 and " " or " "
 end
 
-vim.opt.statusline = table.concat {
-  "%{%v:lua.RecolorMode()%}",
-
-  "%#Separator#█",
-  "%#ModeText#",
-  "%#Separator#██",
-
-  "%#PathText#%{expand('%:p:h:t')}",
-  "%#Separator#██",
-  "%{%v:lua.diagnostics_color()%}",
-  "%#Separator#",
-
-  "%=",
-
-  "%#Separator#",
-  "%#FileType#%{v:lua.file()}",
-  "%#Separator# ",
-
-  "%#Separator#",
-  "%#BranchName#%{v:lua.git()}",
-  "%#Separator# ",
-
-  "%#Separator#",
-  "%#LSPColor#%{v:lua.lsp()}",
-  "%#Separator#█",
-  "%#BranchName#%{v:lua.HandleColumnGap()}",
-  "%#ColumnText#%2c",
-
-  "%#Separator2#",
-  "%#Separator#██",
-  "%#PercentageText#%p%%",
-  "%#Separator#█",
-  "%#Separator2#",
-  "%#Separator#█",
-  "%#TotalLineText#%L",
-  "%#Separator#█",
-}
+-- vim.opt.statusline = table.concat {
+--   "%{%v:lua.RecolorMode()%}",
+--
+--   "%#Separator#█",
+--   "%#ModeText#",
+--   "%#Separator#██",
+--
+--   "%#PathText#%{expand('%:p:h:t')}",
+--   "%#Separator#██",
+--   "%{%v:lua.diagnostics_color()%}",
+--   "%#Separator#",
+--
+--   "%=",
+--
+--   "%#Separator#",
+--   "%#FileType#%{v:lua.file()}",
+--   "%#Separator# ",
+--
+--   "%#Separator#",
+--   "%#BranchName#%{v:lua.git()}",
+--   "%#Separator# ",
+--
+--   "%#Separator#",
+--   "%#LSPColor#%{v:lua.lsp()}",
+--   "%#Separator#█",
+--   "%#BranchName#%{v:lua.HandleColumnGap()}",
+--   "%#ColumnText#%2c",
+--
+--   "%#Separator2#",
+--   "%#Separator#██",
+--   "%#PercentageText#%p%%",
+--   "%#Separator#█",
+--   "%#Separator2#",
+--   "%#Separator#█",
+--   "%#TotalLineText#%L",
+--   "%#Separator#█",
+-- }

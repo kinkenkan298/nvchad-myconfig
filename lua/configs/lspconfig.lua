@@ -12,7 +12,7 @@ local servers = {
         maxSize = 1000000,
       },
       environment = {
-        includePaths = { "./", "vendor" }, -- biar auto import jalan ke vendor/ juga
+        includePaths = { "vendor" },
       },
     },
   },
@@ -34,6 +34,27 @@ local servers = {
       "templ",
       "typescriptreact",
       "vue",
+      "php",
+    },
+    init_options = {
+      ---@type table<string, string>
+      includeLanguages = {},
+      --- @type string[]
+      excludeLanguages = {},
+      --- @type string[]
+      extensionsPath = {},
+      --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
+      preferences = {},
+      --- @type boolean Defaults to `true`
+      showAbbreviationSuggestions = true,
+      --- @type "always" | "never" Defaults to `"always"`
+      showExpandedAbbreviation = "always",
+      --- @type boolean Defaults to `false`
+      showSuggestionsAsSnippets = true,
+      --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
+      syntaxProfiles = {},
+      --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
+      variables = {},
     },
   },
   pyright = {},
