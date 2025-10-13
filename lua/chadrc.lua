@@ -7,7 +7,6 @@ local M = {}
 
 M.base46 = {
   theme = "solarized_osaka",
-  integrations = { "dap" },
   hl_override = {
     Comment = { italic = true },
     ["@comment"] = { italic = true },
@@ -24,10 +23,7 @@ M.ui = {
     style = "borderless",
   },
   tabufline = {
-    lazyload = true,
-  },
-  ident = {
-    enable = false,
+    enabled = false,
   },
 }
 
@@ -55,7 +51,7 @@ M.ui = {
     separator_style = "round",
   },
   cmp = {
-    style = "flat_light",
+    style = "flat_dark",
   },
 }
 return M

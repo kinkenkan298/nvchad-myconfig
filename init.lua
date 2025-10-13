@@ -36,3 +36,5 @@ require "nvchad.autocmds"
 vim.schedule(function()
   pcall(require, "mappings")
 end)
+
+vim.cmd { cmd = "ShowkeysToggle" }

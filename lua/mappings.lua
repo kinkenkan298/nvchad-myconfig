@@ -42,6 +42,6 @@ map("n", "<leader>e", function()
     env = { env = ".env" },
     hidden = true,
     auto_close = false,
-    layout = { preset = "sidebar", preview = true, layout = { position = "left" } },
+    layout = { preset = "sidebar", preview = false, layout = { position = "left" } },
   }
 end)

@@ -1,6 +1,6 @@
 return {
   defaults = {
-    lazy = false,
+    lazy = true,
   },
   install = { colorscheme = { "nvchad" } },
 
@@ -11,7 +11,6 @@ return {
       loaded = "",
       not_loaded = "",
     },
-    backdrop = 100,
   },
   checker = { enabled = true, notify = false },
   performance = {
